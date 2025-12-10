@@ -1,7 +1,5 @@
 package com.matulai.product_service;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.junit.jupiter.api.BeforeEach;
 import io.restassured.RestAssured;
@@ -10,6 +8,7 @@ import org.hamcrest.Matchers;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
+import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.mongodb.MongoDBContainer;
 
@@ -22,6 +21,7 @@ class ProductServiceApplicationTests {
 	@LocalServerPort
 	private Integer port;
 
+	@Container
 	static MongoDBContainer mongoDBContainer = new MongoDBContainer("mongo:7.0.5");
 
 	@DynamicPropertySource
@@ -34,16 +34,6 @@ class ProductServiceApplicationTests {
 	void setup() {
 		RestAssured.baseURI = "http://localhost";
 		RestAssured.port = port;
-	}
-
-	@BeforeAll
-	static void beforeAll() {
-		mongoDBContainer.start();
-	}
-
-	@AfterAll
-	static void afterAll() {
-		mongoDBContainer.stop();
 	}
 
 	// Rest template for HTTP communication from the logic app and RestAssured for testing.
